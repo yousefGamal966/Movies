@@ -7,11 +7,13 @@ import 'package:movies/ui/watchList/WatchListTab.dart';
 class HomeScreen extends StatefulWidget {
   static const String routeName = 'home';
 
+
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+
   List<Widget> tabs = [
   HomeTab(),
     SearchTab(),
@@ -22,10 +24,12 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(title:Image.asset('assets/images/routeflixAppBar.png',filterQuality: FilterQuality.high) ,centerTitle: true,backgroundColor: Colors.transparent,),
     bottomNavigationBar: BottomNavigationBar(
       onTap: (index){
         setState(() {
           selectedIndex =index;
+
 
         });
       },

@@ -13,11 +13,14 @@
 /// vote_average : 8.378
 /// vote_count : 1205
 
-class Results {
-  Results({
+class Movie {
+  static const String collectionName = "Movie";
+  Movie({
       this.adult, 
       this.backdropPath, 
-      this.genreIds, 
+      this.genreIds,
+      this.fireId,
+      this.isAdded = false,
       this.id, 
       this.originalLanguage, 
       this.originalTitle, 
@@ -29,8 +32,27 @@ class Results {
       this.video, 
       this.voteAverage, 
       this.voteCount,});
+  Movie.fromFireStore(Map<String, dynamic> data)
+      : this(
+    posterPath: data['poster_path'],
+    isAdded: data['isAdded'],
+    releaseDate: data['release_date'],
+    title: data['title'],
+    voteAverage: data['vote_average'],
+  );
+  Map<String, dynamic> toFireStore() {
+    final map = <String, dynamic>{};
 
-  Results.fromJson(dynamic json) {
+    map['poster_path'] = posterPath;
+    map['release_date'] = releaseDate;
+    map['isAdded'] = isAdded;
+    map['title'] = title;
+    map['vote_average'] = voteAverage;
+
+    return map;
+  }
+
+  Movie.fromJson(dynamic json) {
     adult = json['adult'];
     backdropPath = json['backdrop_path'];
     genreIds = json['genre_ids'] != null ? json['genre_ids'].cast<int>() : [];
@@ -48,33 +70,35 @@ class Results {
   }
   bool? adult;
   String? backdropPath;
-  List<int>? genreIds;
+  bool isAdded = false;
+  String? fireId;
+  List<num>? genreIds;
   int? id;
   String? originalLanguage;
   String? originalTitle;
   String? overview;
-  double? popularity;
+  num? popularity;
   String? posterPath;
   String? releaseDate;
   String? title;
   bool? video;
-  double? voteAverage;
+  num? voteAverage;
   int? voteCount;
-Results copyWith({  bool? adult,
+Movie copyWith({  bool? adult,
   String? backdropPath,
-  List<int>? genreIds,
+  List<num>? genreIds,
   int? id,
   String? originalLanguage,
   String? originalTitle,
   String? overview,
-  double? popularity,
+  num? popularity,
   String? posterPath,
   String? releaseDate,
   String? title,
   bool? video,
-  double? voteAverage,
+  num? voteAverage,
   int? voteCount,
-}) => Results(  adult: adult ?? this.adult,
+}) => Movie(  adult: adult ?? this.adult,
   backdropPath: backdropPath ?? this.backdropPath,
   genreIds: genreIds ?? this.genreIds,
   id: id ?? this.id,
